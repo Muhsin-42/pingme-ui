@@ -16,6 +16,7 @@ import {Mail, Lock, ArrowRight} from "lucide-react";
 import {useForm} from "react-hook-form";
 import {toast} from "sonner";
 import {noTokenAxios} from "@/lib/axios/no-token.axios";
+import {useRouter} from "next/navigation";
 
 // Form schemas
 const loginSchema = z.object({
@@ -26,6 +27,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
+  const router = useRouter();
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,10 +40,12 @@ const LoginForm = () => {
   const onLoginSubmit = async (values: LoginFormValues) => {
     console.log("Login values:", values);
     try {
-      await noTokenAxios.post("/auth/login", values);
+      const res = await noTokenAxios.post("/auth/login", values);
+      localStorage.setItem("token", res.data.token);
       toast.success("Login successful");
 
-      window.location.href = "/";
+      // window.location.href = "/";
+      router.push("/");
       // eslint-disable-next-line
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to login");
