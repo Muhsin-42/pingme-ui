@@ -7,7 +7,7 @@ const axiosWithToken = axios.create({
 axiosWithToken.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const accessToken = localStorage.getItem("user_token");
+      const accessToken = localStorage.getItem("token");
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -27,11 +27,8 @@ axiosWithToken.interceptors.response.use(
         return;
       }
       if (typeof window !== "undefined") {
-        localStorage.removeItem("user_token");
-        localStorage.removeItem("case-storage");
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("auth-storage");
-        window.location.href = "/login";
+        localStorage.removeItem("token");
+        // window.location.href = "/auth";
       }
     }
     return Promise.reject(error);

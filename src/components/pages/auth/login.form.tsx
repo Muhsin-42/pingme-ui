@@ -43,8 +43,6 @@ const LoginForm = () => {
       const res = await noTokenAxios.post("/auth/login", values);
       localStorage.setItem("token", res.data.token);
       toast.success("Login successful");
-
-      // window.location.href = "/";
       router.push("/");
       // eslint-disable-next-line
     } catch (error: any) {

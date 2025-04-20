@@ -6,13 +6,13 @@ export interface TimeRange {
 }
 
 export interface Url {
-  id: string;
   url: string;
   interval: number;
   daysOfWeek: number[];
   timeRange: TimeRange;
   isActive: boolean;
   createdAt: Date;
+  _id: string;
 }
 
 export interface UrlFormValues {
@@ -20,6 +20,7 @@ export interface UrlFormValues {
   interval: number;
   daysOfWeek: number[];
   timeRange: TimeRange;
+  isActive?: boolean;
 }
 
 export interface DayOfWeek {
@@ -29,7 +30,8 @@ export interface DayOfWeek {
 
 export interface UrlStore {
   urls: Url[];
-  addUrl: (url: UrlFormValues) => void;
-  updateUrl: (id: string, updatedUrl: UrlFormValues) => void;
+  setUrls: (urls: Url[]) => void;
+  addUrl: (url: Url) => void;
+  updateUrl: (id: string, updatedUrl: Partial<Url>) => void;
   deleteUrl: (id: string) => void;
 }
